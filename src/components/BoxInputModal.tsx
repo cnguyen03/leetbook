@@ -24,22 +24,22 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
   return (
     <>
       <div style={{ display: isOpen ? "block" : "none" }}>
-        <div>
+        <div className="flex justify-center mt-3">
           <input
-            className="border border-black border-2 p-1.5"
+            className="rounded-lg shadow-md bg-custom-grey text-white p-2"
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            placeholder="Enter box name"
+            placeholder="Enter problem name..."
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2"
+            className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2 mx-2"
             onClick={handleAddBox}
           >
-            Add Box
+            Add
           </button>
           <button
-            className="border border-black border-2 p-1.5"
+            className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2"
             onClick={onClose}
           >
             Cancel

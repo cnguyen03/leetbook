@@ -18,24 +18,38 @@ function BoxCreator() {
   };
 
   return (
-    <div>
-      <button
-        className="bg-blue-500 text-white px-4 py-2"
-        onClick={handleOpenModal}
-        style={{ border: "none" }}
-      >
-        Add Box
-      </button>
+    <>
+      {/* Add problem Button */}
+      <div className="flex justify-center">
+        <button
+          className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2"
+          onClick={handleOpenModal}
+          style={{ border: "none" }}
+        >
+          Add Problem
+        </button>
+      </div>
+
+      {/* Add Modal */}
       <BoxInputModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onAddBox={handleAddBox}
       />
-      {/* Display boxes */}
-      {boxes.map((box, index) => (
-        <div key={index}>{box}</div>
-      ))}
-    </div>
+
+      {/* Boxes */}
+      <div className="flex justify-center mt-3">
+        {/* Display boxes */}
+        {boxes.map((box, index) => (
+          <div
+            key={index}
+            className="rounded-lg shadow-md bg-custom-grey text-white mx-2 p-2"
+          >
+            {box}
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

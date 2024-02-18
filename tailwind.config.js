@@ -4,8 +4,13 @@ export default {
     "./src/components/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {colors: {
+      'custom-yellow': '#FFA116',
+      'custom-grey': '#313131',
+      // Add more custom colors as needed
+    },},
   },
   plugins: [],
+  
 }
 
