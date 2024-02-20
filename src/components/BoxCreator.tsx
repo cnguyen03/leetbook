@@ -22,7 +22,7 @@ function BoxCreator() {
       {/* Add problem Button */}
       <div className="flex justify-center">
         <button
-          className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2"
+          className="rounded-lg shadow-md bg-custom-grey text-white mt-3 px-4 py-2"
           onClick={handleOpenModal}
           style={{ border: "none" }}
         >
