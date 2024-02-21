@@ -14,6 +14,9 @@ export default {
       fontSize: {
         'note-custom-header': '42px',
       },
+      padding: {
+        'long-input': '400px',
+      }
     }
   },
   plugins: [],

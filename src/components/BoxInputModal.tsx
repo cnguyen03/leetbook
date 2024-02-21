@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 
 interface BoxInputModalProps {
   isOpen: boolean;
@@ -8,8 +8,8 @@ interface BoxInputModalProps {
 
 function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
   const [inputValue, setInputValue] = useState("");
-  const [longInputvalue, setLongInputValue] = useState("");
-  const [overlay, setOverlay] = useState(false);
+  const [longInputValue, setLongInputValue] = useState("");
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -22,11 +22,33 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
   const handleAddBox = () => {
     if (inputValue.trim() !== "") {
       onAddBox(inputValue.trim());
-      setInputValue("");
-      setLongInputValue("");
-      onClose();
+      // NEED TO SAVE LONG INPUT VALUE HERE
+    } else if (longInputValue.trim() !== "") {
+      onAddBox("Untitled");
+      // NEED TO SAVE LONG INPUT VALUE HERE
     }
+    setInputValue("");
+    setLongInputValue("");
+    onClose();
   };
+
+  // Clicking outside of menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        handleAddBox();
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose, handleAddBox]);
 
   return (
     <>
@@ -34,36 +56,26 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
         style={{ display: isOpen ? "block" : "none" }}
         className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50"
       >
-        {/* Input Box */}
-        <div className="flex flex-col justify-center rounded-lg bg-note-custom-bg ml-80 mr-80 mt-36 pt-12 px-24">
+        <div
+          className="flex flex-col justify-center rounded-lg bg-note-custom-bg mx-80 mt-12 pt-12 px-24"
+          ref={modalRef}
+        >
+          {/* Input Box */}
           <input
-            className="bg-note-custom-bg text-note-custom-header font-bold text-white placeholder-custom-input outline-none pb-2 mt-12 mb-3"
+            className="bg-note-custom-bg text-note-custom-header font-bold text-white placeholder-custom-input outline-none pb-1 mt-12 mb-3"
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             placeholder="Untitled"
           />
+          <div className="border-b-2 border-custom-input"></div>
           {/* {Paragraph} */}
           <textarea
-            className="bg-note-custom-bg text-lg text-white placeholder-custom-input outline-none resize-none pb-80"
-            value={longInputvalue}
+            className="bg-note-custom-bg text-lg text-white placeholder-custom-input outline-none resize-none mt-3 h-96"
+            value={longInputValue}
             onChange={handleLongInputChange}
             placeholder="Enter notes..."
           />
-          {/* Add button */}
-          <button
-            className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2 max-w-24"
-            onClick={handleAddBox}
-          >
-            Add
-          </button>
-          {/* Cancel button */}
-          <button
-            className="rounded-lg shadow-md bg-custom-grey text-white px-4 py-2 max-w-24"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </>

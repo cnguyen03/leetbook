@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal {
+    @apply flex flex-col justify-center rounded-lg bg-note-custom-bg ml-80 mr-80 mt-36 pt-12 px-24
+}
