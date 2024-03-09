@@ -3,10 +3,11 @@ import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 interface BoxInputModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddBox: (boxName: string) => void;
+  onAddBox: (boxName: string, notes: string) => void;
+  selectedBox?: string | null;
 }
 
-function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
+function BoxInputModal({ isOpen, onClose, onAddBox, selectedBox }: BoxInputModalProps) {
   const [inputValue, setInputValue] = useState("");
   const [longInputValue, setLongInputValue] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
@@ -21,10 +22,10 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
 
   const handleAddBox = () => {
     if (inputValue.trim() !== "") {
-      onAddBox(inputValue.trim());
+      onAddBox(inputValue.trim(), longInputValue);
       // NEED TO SAVE LONG INPUT VALUE HERE
     } else if (longInputValue.trim() !== "") {
-      onAddBox("Untitled");
+      onAddBox("Untitled", longInputValue);
       // NEED TO SAVE LONG INPUT VALUE HERE
     }
     setInputValue("");
@@ -39,7 +40,9 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        handleAddBox();
+        if (!selectedBox) {
+          handleAddBox();
+        }
         onClose();
       }
     };
@@ -50,6 +53,18 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
     };
   }, [isOpen, onClose, handleAddBox]);
 
+  // Clicking existing box
+  useEffect(() => {
+    if (isOpen && selectedBox) {
+      // Pre-fill input fields if a box is selected
+      setInputValue(selectedBox);
+      // You may want to fetch and set the notes for the selected box here
+    } else {
+      setInputValue("");
+      setLongInputValue("");
+    }
+  }, [isOpen, selectedBox]);
+
   return (
     <>
       <div
@@ -57,7 +72,7 @@ function BoxInputModal({ isOpen, onClose, onAddBox }: BoxInputModalProps) {
         className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50"
       >
         <div
-          className="flex flex-col justify-center rounded-lg bg-note-custom-bg mx-80 mt-12 pt-12 px-24"
+          className="flex flex-col justify-center rounded-lg bg-note-custom-bg mx-80 mt-12 pt-12 px-24 min-w-72"
           ref={modalRef}
         >
           {/* Input Box */}
