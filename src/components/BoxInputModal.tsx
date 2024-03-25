@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 
+// props for arguments passed into component
 interface BoxInputModalProps {
   isOpen: boolean;
   onClose: () => void;
