@@ -16,5 +16,5 @@ new skills with frontend and backend technologies. I hope to come out of buildin
 with frameworks and using databases to store and retrieve information.
 
 ## Tech Stack
-Frontend: React, Vite, TypeScript, TailwindCSS
+Frontend: React, Vite, TypeScript, TailwindCSS  
 Backend: Firebase
