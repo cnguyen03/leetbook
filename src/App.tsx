@@ -33,9 +33,9 @@ function App() {
 
   return (
     <>
+      {user && <Logout />}
       <Title />
       {user ? <BoxCreator /> : <Login />}
-      {user && <Logout />}
       {/* Render logout component only when user is logged in*/}
     </>
   );

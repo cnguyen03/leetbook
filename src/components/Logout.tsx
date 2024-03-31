@@ -13,7 +13,10 @@ function Logout() {
   };
 
   return (
-    <button className="text-white" onClick={logout}>
+    <button
+      className="rounded-lg shadow-md bg-custom-grey text-white mt-3 ml-3 px-1 py-1"
+      onClick={logout}
+    >
       Sign Out
     </button>
   );
